@@ -79,10 +79,10 @@ async def on_member_join(member):
   await ISLog(3, str(member.guild), str(member))
   if str(member.guild) == "The Nexus":
     if member.id == 433433822248304641:
-      #await member.add_roles(loadrole(loadguild(767517834812194816), 767518645114110012))
+      await member.add_roles(loadrole(loadguild(767517834812194816), 767518645114110012))
       await member.add_roles(loadrole(loadguild(767517834812194816), 768632488842100737))
-    else:
-      await member.add_roles(loadrole(loadguild(767517834812194816), 767518743949213696))
+      await member.add_roles(loadrole(loadguild(767517834812194816), 768917831600308234))
+    await member.add_roles(loadrole(loadguild(767517834812194816), 767518743949213696))
   elif str(member.guild) == "The Citadel":
     await member.add_roles(loadrole(loadguild(766376793715769395), 766378487043850260))
 

@@ -1,4 +1,4 @@
-# o=( ͡° ͜ʖ ͡°)=o
+# ( ͡° ͜ʖ ͡°)
 
 
 # Import dependencies

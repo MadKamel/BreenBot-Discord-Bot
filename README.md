@@ -5,8 +5,9 @@ This discord bot is a project of mine that I've been working on lately. It provi
 ## Changelog
 ###  -10/23/20
 ####   Added:
--       N/A
+- README.md
+- main.py
 
 ####   Changed:
--       Added changelog to README.md
--       Re-wrote selfrole code to be less byzantine
+- Added changelog to README.md
+- Re-wrote selfrole code to be less byzantine

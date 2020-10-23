@@ -3,10 +3,10 @@ This discord bot is a project of mine that I've been working on lately. It provi
 
 
 ## Changelog
- ### -10/23/20
-  #### Added:
-   - N/A
-  
-  #### Changed:
-   - Added changelog to README.md
-   - Re-wrote selfrole code to be less byzantine
+###  -10/23/20
+####   Added:
+-       N/A
+
+####   Changed:
+-       Added changelog to README.md
+-       Re-wrote selfrole code to be less byzantine

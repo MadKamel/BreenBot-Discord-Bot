@@ -100,6 +100,16 @@ async def on_reaction_remove(reaction, member):
         if reaction.emoji == SelfRoleEmojis[i]:
           await member.remove_roles(loadrole(loadguild(767517834812194816), SelfRoleRoles[i]))
 
+
+# on_user_update() event
+@client.event
+async def on_member_update(before, after):
+  if before.status != after.status:
+    await ISLog(4, before.guild, str(before) + '\nSTATUS    : ' + str(after.status))
+  if before.activity != after.activity:
+    await ISLog(5, before.guild, str(before) + '\nSTATUS    : ' + str(after.activity))
+
+
 # on_member_join() event
 @client.event
 async def on_member_join(member):
@@ -145,11 +155,22 @@ IS_codes.append('invite link destroyed')
 IS_severity.append('HIGH')
 IS_codes.append('new member has joined the server')
 
+IS_severity.append('NULL')
+IS_codes.append('user has updated their status')
+
+IS_severity.append('NULL')
+IS_codes.append('user has updated their activity')
+
+
+
 # Info Sec Logger function
 async def ISLog(code, guild, details="None."):
   global InfoSecLogs
 
-  await InfoSecLogs.send('<@&768632488842100737>\nURGENCY: ' + IS_severity[code] + '\nISSUE         : ' + IS_codes[code] + '\nGUILD       : ' + str(guild) + '\nDETAILS   : ' + details)
+  if IS_severity[code] != "NULL":
+    await InfoSecLogs.send('<@&768632488842100737>\nURGENCY: ' + IS_severity[code] + '\nISSUE         : ' + IS_codes[code] + '\nGUILD       : ' + str(guild) + '\nDETAILS   : ' + details)
+  else:
+    await InfoSecLogs.send('\nURGENCY: ' + IS_severity[code] + '\nISSUE         : ' + IS_codes[code] + '\nGUILD       : ' + str(guild) + '\nDETAILS   : ' + details)
 
 
 # Run discord Bot Client

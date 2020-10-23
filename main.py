@@ -43,11 +43,12 @@ async def on_ready():
   await SelfRolesMSG3.add_reaction('💑')
   await SelfRolesMSG3.add_reaction('🧑')
 
-  SelfRolesMSG4 = await SelfRoles.send('How would you describe your personality?\n🙃 = goofy/crazy\n🗡 = criminally insane\n🐕‍🦺 = loyal\n😠 = edgy/angry')
+  SelfRolesMSG4 = await SelfRoles.send('How would you describe your personality?\n🙃 = goofy/crazy\n🗡 = criminally insane\n🐕‍🦺 = loyal\n😠 = edgy/angry\n🙂 = chill')
   await SelfRolesMSG4.add_reaction('🙃')
   await SelfRolesMSG4.add_reaction('🗡')
   await SelfRolesMSG4.add_reaction('🐕‍🦺')
   await SelfRolesMSG4.add_reaction('😠')
+  await SelfRolesMSG4.add_reaction('🙂')
 
   SelfRolesMSG5 = await SelfRoles.send('What are your interests?\n🎧 = music\n🏌️ = golfing\n🎨 = art\n💻 = computers')
   await SelfRolesMSG5.add_reaction('🎧')
@@ -59,8 +60,8 @@ async def on_ready():
   global SelfRoleEmojis
   global SelfRoleRoles
 
-  SelfRoleEmojis = ['👩', '👨', '✔️', '💑', '🧑', '🙃', '🗡', '🐕‍🦺', '🎧', '🏌️', '🎨', '💻', '😠']
-  SelfRoleRoles = [768899694033764462, 768899841580728340, 768632488842100737, 768689359461154827, 768938126516682833, 769077333452783616, 769223941473697792, 769078138582859816, 769077092036902962, 769077211742994443, 769077009577934858, 769286509508952074, 769287800272191518]
+  SelfRoleEmojis = ['👩', '👨', '✔️', '💑', '🧑', '🙃', '🗡', '🐕‍🦺', '🎧', '🏌️', '🎨', '💻', '😠', '🙂']
+  SelfRoleRoles = [768899694033764462, 768899841580728340, 768632488842100737, 768689359461154827, 768938126516682833, 769077333452783616, 769223941473697792, 769078138582859816, 769077092036902962, 769077211742994443, 769077009577934858, 769286509508952074, 769287800272191518, 769287556352835615]
 
   print('MAIM is active.')
 

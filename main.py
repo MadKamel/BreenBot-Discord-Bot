@@ -107,8 +107,15 @@ async def on_member_update(before, after):
   if before.status != after.status:
     await ISLog(4, before.guild, str(before) + '\nSTATUS    : ' + str(after.status))
   if before.activity != after.activity:
-    await ISLog(5, before.guild, str(before) + '\nSTATUS    : ' + str(after.activity))
-
+    if after.activity == None:
+      await ISLog(5, before.guild, str(before) + '\nSTATUS    : ')
+    else:
+      await ISLog(5, before.guild, str(before) + '\nSTATUS    : ' + str(after.activity))
+  if before.nick != after.nick:
+    if after.nick == None:
+      await ISLog(6, before.guild, str(before) + '\nNICK          : ')
+    else:
+      await ISLog(6, before.guild, str(before) + '\nNICK          : ' + str(after.nick))
 
 # on_member_join() event
 @client.event
@@ -161,7 +168,8 @@ IS_codes.append('user has updated their status')
 IS_severity.append('NULL')
 IS_codes.append('user has updated their activity')
 
-
+IS_severity.append('NULL')
+IS_codes.append('user\'s nickname has been changed')
 
 # Info Sec Logger function
 async def ISLog(code, guild, details="None."):

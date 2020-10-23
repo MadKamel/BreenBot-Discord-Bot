@@ -22,14 +22,12 @@ client = discord.Client(intents=intents)
 async def on_ready():
   
   # Define channels
-  global InfoSecLogs0
-  global InfoSecLogs1
+  global InfoSecLogs
   global SelfRoles
 
   
   # Initialize channels
-  InfoSecLogs0 = loadchan(768187677715464252)
-  InfoSecLogs1 = loadchan(768628551091748884)
+  InfoSecLogs = loadchan(768628551091748884)
   SelfRoles = loadchan(768901512130199552)
 
   # Send selfrole messages
@@ -143,12 +141,9 @@ IS_codes.append('new member has joined the server')
 
 # Info Sec Logger function
 async def ISLog(code, guild, details="None."):
-  global InfoSecLogs0
-  global InfoSecLogs1
+  global InfoSecLogs
 
-  await InfoSecLogs0.send('<@&768600145368449024>\nURGENCY: ' + IS_severity[code] + '\nISSUE         : ' + IS_codes[code] + '\nGUILD       : ' + str(guild) + '\nDETAILS   : ' + details)
-  if str(guild) == "The Nexus":
-    await InfoSecLogs1.send('<@&768632488842100737>\nURGENCY: ' + IS_severity[code] + '\nISSUE         : ' + IS_codes[code] + '\nGUILD       : ' + str(guild) + '\nDETAILS   : ' + details)
+  await InfoSecLogs1.send('<@&768632488842100737>\nURGENCY: ' + IS_severity[code] + '\nISSUE         : ' + IS_codes[code] + '\nGUILD       : ' + str(guild) + '\nDETAILS   : ' + details)
 
 
 # Run discord Bot Client

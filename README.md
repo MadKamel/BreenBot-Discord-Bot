@@ -11,3 +11,4 @@ This discord bot is a project of mine that I've been working on lately. It provi
 ####   Changed:
 - Added changelog to README.md
 - Re-wrote selfrole code to be less byzantine
+- Added more roles to the selfrole options

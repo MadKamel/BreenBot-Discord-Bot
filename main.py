@@ -45,17 +45,18 @@ async def on_ready():
   await SelfRolesMSG3.add_reaction('💑')
   await SelfRolesMSG3.add_reaction('🧑')
 
-  SelfRolesMSG4 = await SelfRoles.send('How would you describe your personality?\n🙃 = goofy/crazy\n🗡 = criminally insane')
+  SelfRolesMSG4 = await SelfRoles.send('How would you describe your personality?\n🙃 = goofy/crazy\n🗡 = criminally insane\n🐕‍🦺 = loyal')
   await SelfRolesMSG4.add_reaction('🙃')
   await SelfRolesMSG4.add_reaction('🗡')
+  await SelfRolesMSG4.add_reaction('🐕‍🦺')
 
   
   # Define selfrole data
   global SelfRoleEmojis
   global SelfRoleRoles
 
-  SelfRoleEmojis = ['👩', '👨', '✔️', '💑', '🧑', '🙃', '🗡']
-  SelfRoleRoles = [768899694033764462, 768899841580728340, 768632488842100737, 768689359461154827, 768938126516682833, 769077333452783616, 769223941473697792, ]
+  SelfRoleEmojis = ['👩', '👨', '✔️', '💑', '🧑', '🙃', '🗡', '🐕‍🦺']
+  SelfRoleRoles = [768899694033764462, 768899841580728340, 768632488842100737, 768689359461154827, 768938126516682833, 769077333452783616, 769223941473697792, 769078138582859816]
 
   print('MAIM is active.')
 

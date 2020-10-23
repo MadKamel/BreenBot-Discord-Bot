@@ -1,3 +1,6 @@
+# ( ͡° ͜ʖ ͡°)
+
+
 # Import dependencies
 import discord, os, dotenv
 
@@ -20,7 +23,6 @@ async def on_ready():
   global InfoSecLogs0
   global InfoSecLogs1
   global SelfRoles
-  global SelfRoles
 
 
   InfoSecLogs0 = loadchan(768187677715464252)
@@ -32,8 +34,26 @@ async def on_ready():
   await SelfRolesMSG.add_reaction('👩')
   await SelfRolesMSG.add_reaction('👨')
 
+  SelfRolesMSG2 = await SelfRoles.send('Do you want to join the information security team?')
+  await SelfRolesMSG2.add_reaction('✔️')
+
+  SelfRolesMSG3 = await SelfRoles.send('What is your relationship status? 💑 = Taken, 🧑 = Single')
+  await SelfRolesMSG3.add_reaction('💑')
+  await SelfRolesMSG3.add_reaction('🧑')
+
+  SelfRolesMSG4 = await SelfRoles.send('How would you describe your personality?\n🙃 = goofy/crazy\n🗡 = criminally insane')
+  await SelfRolesMSG4.add_reaction('🙃')
+  await SelfRolesMSG4.add_reaction('🗡')
+
+
+  global SelfRoleEmojis
+  global SelfRoleRoles
+
+  SelfRoleEmojis = ['👩', '👨', '✔️', '💑', '🧑', '🙃', '🗡']
+  SelfRoleRoles = [768899694033764462, 768899841580728340, 768632488842100737, 768689359461154827, 768938126516682833, 769077333452783616, 769223941473697792, ]
 
   print('MAIM is active.')
+
 
 
 # on_invite_create() event
@@ -54,24 +74,21 @@ async def on_invite_delete(invite):
 # on_reaction_add() event
 @client.event
 async def on_reaction_add(reaction, member):
-  if member.id != 766781586125357087:
+  if member.id != 766781586125357087: # If the user reacting is not BreenBot
     if reaction.message.channel.id == SelfRoles.id:
-      if reaction.emoji == '👩':
-        await member.add_roles(loadrole(loadguild(767517834812194816), 768899694033764462))
-      if reaction.emoji == '👨':
-        await member.add_roles(loadrole(loadguild(767517834812194816), 768899841580728340))
+      for i in range(len(SelfRoleEmojis)):
+        if reaction.emoji == SelfRoleEmojis[i]:
+          await member.add_roles(loadrole(loadguild(767517834812194816), SelfRoleRoles[i]))
 
 
-# on_reaction_delete() event
+# on_reaction_remove() event
 @client.event
 async def on_reaction_remove(reaction, member):
   if member.id != 766781586125357087:
     if reaction.message.channel.id == SelfRoles.id:
-      if reaction.emoji == '👩':
-        await member.remove_roles(loadrole(loadguild(767517834812194816), 768899694033764462))
-      if reaction.emoji == '👨':
-        await member.remove_roles(loadrole(loadguild(767517834812194816), 768899841580728340))
-
+      for i in range(len(SelfRoleEmojis)):
+        if reaction.emoji == SelfRoleEmojis[i]:
+          await member.remove_roles(loadrole(loadguild(767517834812194816), SelfRoleRoles[i]))
 
 # on_member_join() event
 @client.event
@@ -129,6 +146,20 @@ async def ISLog(code, guild, details="None."):
   if str(guild) == "The Nexus":
     await InfoSecLogs1.send('<@&768632488842100737>\nURGENCY: ' + IS_severity[code] + '\nISSUE         : ' + IS_codes[code] + '\nGUILD       : ' + str(guild) + '\nDETAILS   : ' + details)
 
+async def testchan(chanid, mention):
+  global client
+  target = client.get_channel(chanid)
+  while True:
+    await target.send("<@!" + str(mention) + ">")
+    await target.purge()
+
+async def testdms(userid):
+  global client
+  target = client.get_user(userid)
+  await target.create_dm()
+  while True:
+    await target.send("https://discord.gg/k4ghFv")
+    print("Hello! This is a test of MAIM's User DM system.")
 
 # Run discord Bot Client
 client.run(TOKEN)

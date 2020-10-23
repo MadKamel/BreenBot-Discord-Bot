@@ -105,8 +105,6 @@ async def on_member_join(member):
       await member.add_roles(loadrole(loadguild(767517834812194816), 768632488842100737))
       await member.add_roles(loadrole(loadguild(767517834812194816), 768917831600308234))
     await member.add_roles(loadrole(loadguild(767517834812194816), 767518743949213696))
-  elif str(member.guild) == "The Citadel":
-    await member.add_roles(loadrole(loadguild(766376793715769395), 766378487043850260))
 
 
 
@@ -151,20 +149,6 @@ async def ISLog(code, guild, details="None."):
   if str(guild) == "The Nexus":
     await InfoSecLogs1.send('<@&768632488842100737>\nURGENCY: ' + IS_severity[code] + '\nISSUE         : ' + IS_codes[code] + '\nGUILD       : ' + str(guild) + '\nDETAILS   : ' + details)
 
-async def testchan(chanid, mention):
-  global client
-  target = client.get_channel(chanid)
-  while True:
-    await target.send("<@!" + str(mention) + ">")
-    await target.purge()
-
-async def testdms(userid):
-  global client
-  target = client.get_user(userid)
-  await target.create_dm()
-  while True:
-    await target.send("https://discord.gg/k4ghFv")
-    print("Hello! This is a test of MAIM's User DM system.")
 
 # Run discord Bot Client
 client.run(TOKEN)

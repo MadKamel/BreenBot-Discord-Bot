@@ -3,5 +3,5 @@ This discord bot is a project of mine that I've been working on lately. It provi
 
 
 
-## Changelog
-### 10/23/20
+   ## Changelog
+    ### -10/23/20

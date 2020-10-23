@@ -1,2 +1,7 @@
 # BreenBot
-This discord bot is a project of mine that I've been working on lately. It was designed to fullfil the roles that other bots like MEE6 and Dank Memer fill. It can also help with managing security issues, such as pinging a Security role when a new invite is made or a user joins the server.
+This discord bot is a project of mine that I've been working on lately. It provides services to help with managing a server such as automated role assignment (selfroles) and logging and pinging admins/mods on security incidents (invite activity, new members). Here is a changelog:
+
+
+
+## Changelog
+### 10/23/20

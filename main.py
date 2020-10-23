@@ -20,15 +20,19 @@ client = discord.Client(intents=intents)
 # on_ready() event
 @client.event
 async def on_ready():
+  
+  # Define channels
   global InfoSecLogs0
   global InfoSecLogs1
   global SelfRoles
 
-
+  
+  # Initialize channels
   InfoSecLogs0 = loadchan(768187677715464252)
   InfoSecLogs1 = loadchan(768628551091748884)
   SelfRoles = loadchan(768901512130199552)
 
+  # Send selfrole messages
   await SelfRoles.purge()
   SelfRolesMSG = await SelfRoles.send('Welcome to The Nexus! React to this message to choose your roles.')
   await SelfRolesMSG.add_reaction('👩')
@@ -45,7 +49,8 @@ async def on_ready():
   await SelfRolesMSG4.add_reaction('🙃')
   await SelfRolesMSG4.add_reaction('🗡')
 
-
+  
+  # Define selfrole data
   global SelfRoleEmojis
   global SelfRoleRoles
 

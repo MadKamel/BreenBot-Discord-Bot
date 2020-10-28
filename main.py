@@ -40,8 +40,7 @@ MAILING_LIST = os.getenv("MAILING_LIST").split("|")
 
 # Set up breenbot mailer with SMTP
 server = smtplib.SMTP("smtp.office365.com", 587)
-server.connect("smtp.office365.com", 587)
-server.starttls()
+
 
 
 # Create intents
@@ -254,6 +253,8 @@ async def ISLog(code, guild, details="None."):
     if guild != "BreenBot Logging Server":
       await InfoSecLogs.send('<@&768632488842100737>\nURGENCY: ' + IS_severity[code] + '\nISSUE         : ' + IS_codes[code] + '\nGUILD       : ' + str(guild) + '\nDETAILS   : ' + details)
 
+      server.connect("smtp.office365.com", 587)
+      server.starttls()
       outgoing_message = "<h2>Security activity detected.</h2><hr><br>Guild affected: <b>" + guild + "</b><br>Activity Type: <b>" + IS_codes[code] + "</b><br>Severity Rating: <b>" + IS_severity[code] + "</b><br>Other Details: <b>" + details + "</b><br><br>If you would like to remove your email from the mailing list, please contact the author on Discord."      
       server.login(USER, PASS)
       

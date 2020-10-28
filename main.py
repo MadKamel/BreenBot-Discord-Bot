@@ -12,12 +12,21 @@ from threading import Thread
 
 
 
+# Load ENV flies
+dotenv.load_dotenv()
+TOKEN = os.getenv("DISCORD_TOKEN")
+USER = os.getenv("EMAIL_ADDRESS")
+PASS = os.getenv("EMAIL_PASSWORD")
+MAILING_LIST = os.getenv("MAILING_LIST").split("|")
+ENVLOADED = os.getenv('ENVLOADED')
+
+
 # Start Flask application
 app = Flask('')
 
 @app.route('/')
 def home():
-	return 'BreenBot Active.'
+  return open('flasksite.html').read()
 
 def run():
   app.run(host='0.0.0.0', port=random.randint(2000,9000))
@@ -26,15 +35,6 @@ def run():
 def keep_alive():
 	t = Thread(target=run)
 	t.start()
-
-
-
-# Load ENV flies
-dotenv.load_dotenv()
-TOKEN = os.getenv("DISCORD_TOKEN")
-USER = os.getenv("EMAIL_ADDRESS")
-PASS = os.getenv("EMAIL_PASSWORD")
-MAILING_LIST = os.getenv("MAILING_LIST").split("|")
 
 
 
@@ -116,9 +116,14 @@ async def on_message(message):
     if loadrole(message.guild, 770104165761417277) in message.author.roles:
       try:
         if message.content[0:4] == 'kick':
-          print('kicking user ID: ' + message.content[4:])
-          print('           name: ' + loadmember(message.guild, int(message.content[4:])).name)
+          print('kicking user ID: ' + message.content[4:] + '\n           name: ' + loadmember(message.guild, int(message.content[4:])).name)
           await loadmember(message.guild, int(message.content[4:])).kick()
+      except:
+        pass
+      
+      try:
+        if message.content[0:4] == 'test':
+          pass
       except:
         pass
 

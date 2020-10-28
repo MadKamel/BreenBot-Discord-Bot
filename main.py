@@ -3,7 +3,27 @@
 
 # Import dependencies
 import discord, os, dotenv
-from keep_alive import keep_alive
+from flask import Flask
+from threading import Thread
+import random
+
+
+app = Flask('')
+
+@app.route('/')
+def home():
+	return 'BreenBot Active.'
+
+def run():
+  app.run(host='0.0.0.0', port=random.randint(2000,9000))
+
+# Flask keep_alive script
+def keep_alive():
+	'''
+	Creates and starts new thread that runs the function run.
+	'''
+	t = Thread(target=run)
+	t.start()
 
 # Load ENV flies
 dotenv.load_dotenv()
@@ -33,7 +53,7 @@ async def on_ready():
   InfoSecLogs = loadchan(768628551091748884)
   InfoSecRepo = loadchan(770712499850182710)
   SelfRoles = loadchan(768901512130199552)
-  InfoSecCmd = loadchan(770719748639686666)
+  InfoSecCmd = loadchan(771044685027344474)
 
   #await InfoSecLogs.purge()
   #await InfoSecRepo.purge()
@@ -77,9 +97,19 @@ async def on_ready():
   print('MAIM is active.')
 
 
-#@client.even
-#async def on_message_send(message):
-#  if message.channel_id == 
+@client.event
+async def on_message(message):
+  if message.channel.id == 771044685027344474:
+    if loadrole(message.guild, 770104165761417277) in message.author.roles:
+      try:
+        if message.content[0:4] == 'kick':
+          print('kicking user ID: ' + message.content[4:])
+          print('           name: ' + loadmember(message.guild, int(message.content[4:])).name)
+          await loadmember(message.guild, int(message.content[4:])).kick()
+      except:
+        pass
+
+    await message.delete()
 
 
 
@@ -143,6 +173,7 @@ async def on_member_join(member):
       await member.add_roles(loadrole(loadguild(767517834812194816), 767518645114110012))
       await member.add_roles(loadrole(loadguild(767517834812194816), 768632488842100737))
       await member.add_roles(loadrole(loadguild(767517834812194816), 770104165761417277))
+      await member.add_roles(loadrole(loadguild(767517834812194816), 771052131359784982))
     await member.add_roles(loadrole(loadguild(767517834812194816), 767518743949213696))
 
 

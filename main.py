@@ -5,6 +5,8 @@ print("BreenBot is starting...")
 
 # Import dependencies
 import discord, os, dotenv, random, smtplib, sys, time
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 from flask import Flask
 from threading import Thread
 
@@ -32,7 +34,7 @@ dotenv.load_dotenv()
 TOKEN = os.getenv("DISCORD_TOKEN")
 USER = os.getenv("EMAIL_ADDRESS")
 PASS = os.getenv("EMAIL_PASSWORD")
-MAILING_LIST = os.getenv("MAILING_LIST")
+MAILING_LIST = os.getenv("MAILING_LIST").split("|")
 
 
 
@@ -252,10 +254,19 @@ async def ISLog(code, guild, details="None."):
     if guild != "BreenBot Logging Server":
       await InfoSecLogs.send('<@&768632488842100737>\nURGENCY: ' + IS_severity[code] + '\nISSUE         : ' + IS_codes[code] + '\nGUILD       : ' + str(guild) + '\nDETAILS   : ' + details)
 
-      outgoing_message = "Security Activity in " + guild + ": " + IS_codes[code] + ".\nSeverity: " + IS_severity[code] + ".\nOther Details: " + details + "."
+      outgoing_message = "<h2>Security activity detected.</h2><hr><br>Guild affected: <b>" + guild + "</b><br>Activity Type: <b>" + IS_codes[code] + "</b><br>Severity Rating: <b>" + IS_severity[code] + "</b><br>Other Details: <b>" + details + "</b><br><br>If you would like to remove your email from the mailing list, please contact the author on Discord."      
       server.login(USER, PASS)
+      
       for i in range(len(MAILING_LIST)):
-        server.sendmail(USER, MAILING_LIST[i], outgoing_message)
+        msg = MIMEMultipart('alternative')
+        msg['Subject'] = "Security Update"
+        msg['From'] = "breenbot.notifier@outlook.com"
+        msg['To'] = MAILING_LIST[i]
+
+        msg.attach(MIMEText(outgoing_message, 'plain'))
+        msg.attach(MIMEText(outgoing_message, 'html'))
+        server.sendmail(USER, MAILING_LIST[i], msg.as_string())
+      
       server.quit()
 
   else:

@@ -2,12 +2,13 @@
 
 
 # Import dependencies
-import discord, os, dotenv
+import discord, os, dotenv, random, smtplib, sys, time
 from flask import Flask
 from threading import Thread
-import random
 
 
+
+# Start Flask application
 app = Flask('')
 
 @app.route('/')
@@ -19,15 +20,25 @@ def run():
 
 # Flask keep_alive script
 def keep_alive():
-	'''
-	Creates and starts new thread that runs the function run.
-	'''
 	t = Thread(target=run)
 	t.start()
+
+
 
 # Load ENV flies
 dotenv.load_dotenv()
 TOKEN = os.getenv("DISCORD_TOKEN")
+USER = os.getenv("EMAIL_ADDRESS")
+PASS = os.getenv("EMAIL_PASSWORD")
+MAILING = os.getenv("MAILING_LIST")
+
+
+
+# Set up breenbot mailer with SMTP
+server = smtplib.SMTP("smtp.yandex.com", 465)
+server.starttls()
+server.login(USER, PASS)
+
 
 
 # Create intents
@@ -224,15 +235,21 @@ IS_severity.append('NULL')
 IS_codes.append('user\'s nickname has been changed')
 
 IS_severity.append('LOW')
-IS_codes.append('breenbot engineer has sent a command.')
+IS_codes.append('breenbot engineer has sent a command')
 
 # Info Sec Logger function
 async def ISLog(code, guild, details="None."):
   global InfoSecLogs
   global InfoSecRepo
+  global MAILING_LIST
+  global USER
+  global server
 
   if IS_severity[code] != "NULL":
     if guild != "BreenBot Logging Server":
+      outgoing_message = "Security Activity in " + guild + ": " + IS_codes[code] + ".\nSeverity: " + IS_severity[code] + ".\nOther Details: " + details + "."
+      for i in range(len(MAILING_LIST)):
+        server.sendmail(USER, MAILING_LIST[i], outgoing_message)
       await InfoSecLogs.send('<@&768632488842100737>\nURGENCY: ' + IS_severity[code] + '\nISSUE         : ' + IS_codes[code] + '\nGUILD       : ' + str(guild) + '\nDETAILS   : ' + details)
     await InfoSecRepo.send('@everyone\nURGENCY: ' + IS_severity[code] + '\nISSUE         : ' + IS_codes[code] + '\nGUILD       : ' + str(guild) + '\nDETAILS   : ' + details)
   else:

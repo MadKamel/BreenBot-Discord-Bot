@@ -1,6 +1,8 @@
 # ( ͡° ͜ʖ ͡°)
 
 
+print("BreenBot is starting...")
+
 # Import dependencies
 import discord, os, dotenv, random, smtplib, sys, time
 from flask import Flask
@@ -30,15 +32,14 @@ dotenv.load_dotenv()
 TOKEN = os.getenv("DISCORD_TOKEN")
 USER = os.getenv("EMAIL_ADDRESS")
 PASS = os.getenv("EMAIL_PASSWORD")
-MAILING = os.getenv("MAILING_LIST")
+MAILING_LIST = os.getenv("MAILING_LIST")
 
 
 
 # Set up breenbot mailer with SMTP
-server = smtplib.SMTP("smtp.yandex.com", 465)
+server = smtplib.SMTP("smtp.office365.com", 587)
+server.connect("smtp.office365.com", 587)
 server.starttls()
-server.login(USER, PASS)
-
 
 
 # Create intents
@@ -52,7 +53,7 @@ client = discord.Client(intents=intents)
 # on_ready() event
 @client.event
 async def on_ready():
-  
+
   # Define channels
   global InfoSecLogs
   global InfoSecRepo
@@ -243,15 +244,20 @@ async def ISLog(code, guild, details="None."):
   global InfoSecRepo
   global MAILING_LIST
   global USER
+  global PASS
   global server
 
   if IS_severity[code] != "NULL":
+    await InfoSecRepo.send('@everyone\nURGENCY: ' + IS_severity[code] + '\nISSUE         : ' + IS_codes[code] + '\nGUILD       : ' + str(guild) + '\nDETAILS   : ' + details)
     if guild != "BreenBot Logging Server":
+      await InfoSecLogs.send('<@&768632488842100737>\nURGENCY: ' + IS_severity[code] + '\nISSUE         : ' + IS_codes[code] + '\nGUILD       : ' + str(guild) + '\nDETAILS   : ' + details)
+
       outgoing_message = "Security Activity in " + guild + ": " + IS_codes[code] + ".\nSeverity: " + IS_severity[code] + ".\nOther Details: " + details + "."
+      server.login(USER, PASS)
       for i in range(len(MAILING_LIST)):
         server.sendmail(USER, MAILING_LIST[i], outgoing_message)
-      await InfoSecLogs.send('<@&768632488842100737>\nURGENCY: ' + IS_severity[code] + '\nISSUE         : ' + IS_codes[code] + '\nGUILD       : ' + str(guild) + '\nDETAILS   : ' + details)
-    await InfoSecRepo.send('@everyone\nURGENCY: ' + IS_severity[code] + '\nISSUE         : ' + IS_codes[code] + '\nGUILD       : ' + str(guild) + '\nDETAILS   : ' + details)
+      server.quit()
+
   else:
     await InfoSecRepo.send('\nURGENCY: ' + IS_severity[code] + '\nISSUE         : ' + IS_codes[code] + '\nGUILD       : ' + str(guild) + '\nDETAILS   : ' + details)
 

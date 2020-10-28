@@ -52,8 +52,10 @@ async def on_ready():
   SelfRoles = loadchan(768901512130199552)
   InfoSecCmd = loadchan(771044685027344474)
 
-  #await InfoSecLogs.purge()
-  #await InfoSecRepo.purge()
+  # Uncomment to set BreenBot to clear all logs
+  #while True:
+  #  await InfoSecLogs.purge()
+  #  await InfoSecRepo.purge()
 
 
   # Send selfrole messages
@@ -154,17 +156,17 @@ async def on_reaction_remove(reaction, member):
 @client.event
 async def on_member_update(before, after):
   if before.status != after.status: # Log status changes
-    await ISLog(4, before.guild, str(before) + '\nSTATUS    : ' + str(after.status))
+    await ISLog(4, before.guild, str(before) + ' | ' + before.mention + '\nSTATUS    : ' + str(after.status))
   if before.activity != after.activity: # Log activity changes
     if after.activity == None:
-      await ISLog(5, before.guild, str(before) + '\nSTATUS    : ')
+      await ISLog(5, before.guild, str(before) + ' | ' + before.mention + '\nSTATUS    : ')
     else:
-      await ISLog(5, before.guild, str(before) + '\nSTATUS    : ' + str(after.activity))
+      await ISLog(5, before.guild, str(before) + ' | ' + before.mention + '\nSTATUS    : ' + str(after.activity))
   if before.nick != after.nick: # Log nickname
     if after.nick == None:
-      await ISLog(6, before.guild, str(before) + '\nNICK          : ')
+      await ISLog(6, before.guild, str(before) + ' | ' + before.mention + '\nNICK          : ')
     else:
-      await ISLog(6, before.guild, str(before) + '\nNICK          : ' + str(after.nick))
+      await ISLog(6, before.guild, str(before) + ' | ' + before.mention + '\nNICK          : ' + str(after.nick))
 
 # on_member_join() event
 @client.event

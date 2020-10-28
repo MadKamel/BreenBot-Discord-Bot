@@ -21,22 +21,6 @@ MAILING_LIST = os.getenv("MAILING_LIST").split("|")
 ENVLOADED = os.getenv('ENVLOADED')
 
 
-# Start Flask application
-app = Flask('')
-
-@app.route('/')
-def home():
-  return open('flasksite.html').read()
-
-def run():
-  app.run(host='0.0.0.0', port=random.randint(2000,9000))
-
-# Flask keep_alive script
-def keep_alive():
-	t = Thread(target=run)
-	t.start()
-
-
 
 # Set up breenbot mailer with SMTP
 server = smtplib.SMTP("smtp.office365.com", 587)
@@ -85,11 +69,11 @@ async def on_ready():
   await SelfRolesMSG3.add_reaction('💑')
   await SelfRolesMSG3.add_reaction('🧑')
 
-  SelfRolesMSG4 = await SelfRoles.send('How would you describe your personality?\n🙃 = goofy/crazy\n🗡 = criminally insane\n🐕‍🦺 = loyal\n😠 = edgy/angry\n🙂 = chill')
+  SelfRolesMSG4 = await SelfRoles.send('How would you describe your personality?\n🙃 = goofy/crazy\n😠 = agressive\n🐕‍🦺 = loyal\n😊 = friendly\n🙂 = chill')
   await SelfRolesMSG4.add_reaction('🙃')
-  await SelfRolesMSG4.add_reaction('🗡')
-  await SelfRolesMSG4.add_reaction('🐕‍🦺')
   await SelfRolesMSG4.add_reaction('😠')
+  await SelfRolesMSG4.add_reaction('🐕‍🦺')
+  await SelfRolesMSG4.add_reaction('😊')
   await SelfRolesMSG4.add_reaction('🙂')
 
   SelfRolesMSG5 = await SelfRoles.send('What are your interests?\n🎧 = music\n🏌️ = golfing\n🎨 = art\n💻 = computers')
@@ -214,6 +198,29 @@ def loadguild(id): # Loads a guild (server)
 def loadmember(guild, id): # Loads a member from an id
   print('User @' + guild.get_member(id).name + ' loaded.')
   return guild.get_member(id)
+
+
+
+# Start Flask application
+app = Flask('')
+
+@app.route('/')
+def home():
+  return open('flasksite.html').read()
+
+def run():
+  app.run(host='0.0.0.0', port=random.randint(2000,9000))
+
+# Flask keep_alive script
+def keep_alive():
+	t = Thread(target=run)
+	t.start()
+
+
+
+
+
+
 
 # IS Log Types/Severities
 IS_severity = []

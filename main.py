@@ -84,7 +84,7 @@ async def on_ready():
   await SelfRolesMSG5.add_reaction('🎨')
   await SelfRolesMSG5.add_reaction('💻')
 
-  SelfRolesMSG6 = await SelfRoles.send('Do you want to join the <#!771142908967518268> channel? (NSFW)')
+  SelfRolesMSG6 = await SelfRoles.send('Do you want to join the <#771142908967518268> channel? (NSFW)')
   await SelfRolesMSG6.add_reaction('😳')
 
   # Define selfrole data

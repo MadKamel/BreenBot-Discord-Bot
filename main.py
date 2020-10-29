@@ -35,6 +35,9 @@ client = discord.Client(intents=intents)
 
 
 
+
+CommandChannels = [771044685027344474, 771413388311265280]
+
 # on_ready() event
 @client.event
 async def on_ready():
@@ -44,13 +47,16 @@ async def on_ready():
   global InfoSecRepo
   global SelfRoles
   global InfoSecCmd
-
+  global VeriAnnouncements
+  global VeriCommand
 
   # Initialize channels
   InfoSecLogs = loadchan(768628551091748884)
   InfoSecRepo = loadchan(770712499850182710)
   SelfRoles = loadchan(768901512130199552)
   InfoSecCmd = loadchan(771044685027344474)
+  VeriAnnouncements = loadchan(771414943613976587)
+  VeriCommand = loadchan(771413388311265280)
 
   # Uncomment to set BreenBot to clear all logs
   #while True:
@@ -98,8 +104,10 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
-  if message.channel.id == 771044685027344474:
-    if loadrole(message.guild, 770104165761417277) in message.author.roles:
+  global CommandChannels
+
+  if message.channel.id in CommandChannels:
+    if await verified(message):
       try:
         if message.content[0:4] == 'kick':
           print('kicking user ID: ' + message.content[5:] + '\n           name: ' + loadmember(message.guild, int(message.content[5:])).name)
@@ -109,8 +117,38 @@ async def on_message(message):
         pass
       
       try:
+        if message.content[0:4] == 'stat':
+          await setstatus(message.content[5:])
+          await ISLog(7, message.guild, message.content)
+      except:
+        pass
+
+      try:
         if message.content[0:4] == 'test':
           await ISLog(7, message.guild, message.content)
+      except:
+        pass
+
+
+      try:
+        if message.content[0:5] == 'grant':
+          cmd_all = message.content.split(' ')
+          print(cmd_all)
+          await ISLog(7, message.guild, message.content + " | " + loadmember(loadguild(message.guild.id), int(cmd_all[1])).mention)
+          await loadmember(loadguild(message.guild.id), int(cmd_all[1])).add_roles(loadrole(loadguild(message.guild.id), int(cmd_all[2])))
+      except discord.errors.NotFound:
+        await ISLog(8, message.guild, cmd_all[2] + " 404 Not Found error")
+      except:
+        pass
+
+      try:
+        if message.content[0:6] == 'revoke':
+          cmd_all = message.content.split(' ')
+          print(cmd_all)
+          await ISLog(7, message.guild, message.content + " | " + loadmember(loadguild(message.guild.id), int(cmd_all[1])).mention)
+          await loadmember(loadguild(message.guild.id), int(cmd_all[1])).remove_roles(loadrole(loadguild(message.guild.id), int(cmd_all[2])))
+      except discord.errors.NotFound:
+        await ISLog(8, message.guild, cmd_all[2] + " 404 Not Found error")
       except:
         pass
 
@@ -180,7 +218,10 @@ async def on_member_join(member):
       await member.add_roles(loadrole(loadguild(767517834812194816), 770104165761417277))
       await member.add_roles(loadrole(loadguild(767517834812194816), 771052131359784982))
     await member.add_roles(loadrole(loadguild(767517834812194816), 767518743949213696))
-
+  elif str(member.guild) == "Veridean Official Group Server":
+    if member.id == 433433822248304641:
+      await member.add_roles(loadrole(loadguild(745422782216667256), 771412680287453184))
+    await member.add_roles(loadrole(loadguild(745422782216667256), 745616794181435442))
 
 
 # Load Channel function
@@ -202,6 +243,11 @@ def loadmember(guild, id): # Loads a member from an id
   print('User @' + guild.get_member(id).name + ' loaded.')
   return guild.get_member(id)
 
+async def setstatus(activity):
+  global client
+  print('Setting status to: ' + activity)
+  await client.change_presence(status=discord.Status.online, activity=discord.Game(activity))
+
 
 
 # Start Flask application
@@ -221,7 +267,11 @@ def keep_alive():
 
 
 
-
+async def verified(msg):
+  if str(msg.guild) == "Veridean Official Group Server":
+    return loadrole(loadguild(745422782216667256), 771412680287453184) in msg.author.roles
+  elif str(msg.guild) == "The Nexus":
+    return loadrole(loadguild(767517834812194816), 770104165761417277) in msg.author.roles
 
 
 
@@ -254,10 +304,14 @@ IS_codes.append('user\'s nickname has been changed')
 IS_severity.append('LOW')
 IS_codes.append('breenbot engineer has sent a command')
 
+IS_severity.append('LOW')
+IS_codes.append('an error has occured with a command sent')
+
 # Info Sec Logger function
 async def ISLog(code, guild, details="None."):
   global InfoSecLogs
   global InfoSecRepo
+  global VeriAnnouncements
   global MAILING_LIST
   global USER
   global PASS
@@ -267,24 +321,30 @@ async def ISLog(code, guild, details="None."):
     await InfoSecRepo.send('@everyone\nURGENCY: ' + IS_severity[code] + '\nISSUE         : ' + IS_codes[code] + '\nGUILD       : ' + str(guild) + '\nDETAILS   : ' + details)
 
     if guild != "BreenBot Logging Server": # If guild is NOT the logging server, then:
-      await InfoSecLogs.send('<@&768632488842100737>\nURGENCY: ' + IS_severity[code] + '\nISSUE         : ' + IS_codes[code] + '\nGUILD       : ' + str(guild) + '\nDETAILS   : ' + details)
+      if str(guild) == "Veridean Official Group Server":
+        await VeriAnnouncements.send('<@&771412680287453184>\nURGENCY: ' + IS_severity[code] + '\nISSUE         : ' + IS_codes[code] + '\nGUILD       : ' + str(guild) + '\nDETAILS   : ' + details)
+      elif str(guild) == "The Nexus":
+        await InfoSecLogs.send('<@&768632488842100737>\nURGENCY: ' + IS_severity[code] + '\nISSUE         : ' + IS_codes[code] + '\nGUILD       : ' + str(guild) + '\nDETAILS   : ' + details)
 
-      server.connect("smtp.office365.com", 587)
-      server.starttls()
-      outgoing_message = "<h2>Security activity detected.</h2><hr><br>Guild affected: <b>" + guild + "</b><br>Activity Type: <b>" + IS_codes[code] + "</b><br>Severity Rating: <b>" + IS_severity[code] + "</b><br>Other Details: <b>" + details + "</b><br><br>If you would like to remove your email from the mailing list, please contact the author on Discord."      
-      server.login(USER, PASS)
+      try:
+        server.connect("smtp.office365.com", 587)
+        server.starttls()
+        outgoing_message = "<h2>Security activity detected.</h2><hr><br>Guild affected: <b>" + guild + "</b><br>Activity Type: <b>" + IS_codes[code] + "</b><br>Severity Rating: <b>" + IS_severity[code] + "</b><br>Other Details: <b>" + details + "</b><br><br>If you would like to remove your email from the mailing list, please contact the author on Discord."      
+        server.login(USER, PASS)
       
-      for i in range(len(MAILING_LIST)):
-        msg = MIMEMultipart('alternative')
-        msg['Subject'] = "Security Update"
-        msg['From'] = "breenbot.notifier@outlook.com"
-        msg['To'] = MAILING_LIST[i]
+        for i in range(len(MAILING_LIST)):
+          msg = MIMEMultipart('alternative')
+          msg['Subject'] = "Security Update"
+          msg['From'] = "breenbot.notifier@outlook.com"
+          msg['To'] = MAILING_LIST[i]
 
-        msg.attach(MIMEText(outgoing_message, 'plain'))
-        msg.attach(MIMEText(outgoing_message, 'html'))
-        server.sendmail(USER, MAILING_LIST[i], msg.as_string())
+          msg.attach(MIMEText(outgoing_message, 'plain'))
+          msg.attach(MIMEText(outgoing_message, 'html'))
+          server.sendmail(USER, MAILING_LIST[i], msg.as_string())
       
-      server.quit()
+        server.quit()
+      except:
+        pass
 
   else:
     await InfoSecRepo.send('\nURGENCY: ' + IS_severity[code] + '\nISSUE         : ' + IS_codes[code] + '\nGUILD       : ' + str(guild) + '\nDETAILS   : ' + details)

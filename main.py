@@ -22,6 +22,8 @@ ENVLOADED = os.getenv('ENVLOADED')
 
 
 
+
+
 # Set up breenbot mailer with SMTP
 server = smtplib.SMTP("smtp.office365.com", 587)
 
@@ -51,10 +53,10 @@ async def on_ready():
   global VeriCommand
 
   # Initialize channels
-  InfoSecLogs = loadchan(768628551091748884)
+  InfoSecLogs = loadchan(771499214290550837)
   InfoSecRepo = loadchan(770712499850182710)
-  SelfRoles = loadchan(768901512130199552)
-  InfoSecCmd = loadchan(771044685027344474)
+  SelfRoles = loadchan(771492134058590218)
+  InfoSecCmd = loadchan(771499744257900556)
   VeriAnnouncements = loadchan(771414943613976587)
   VeriCommand = loadchan(771413388311265280)
 
@@ -210,37 +212,37 @@ async def on_member_update(before, after):
 # on_member_join() event
 @client.event
 async def on_member_join(member):
+  global Prototype
+  global Veridean
+
   await ISLog(3, str(member.guild), str(member))
-  if str(member.guild) == "The Nexus":
+  if str(member.guild) == str(Prototype):
     if member.id == 433433822248304641: # If user is me, then give me co-owner role and infosec role
-      await member.add_roles(loadrole(loadguild(767517834812194816), 767518645114110012))
-      await member.add_roles(loadrole(loadguild(767517834812194816), 768632488842100737))
-      await member.add_roles(loadrole(loadguild(767517834812194816), 770104165761417277))
-      await member.add_roles(loadrole(loadguild(767517834812194816), 771052131359784982))
-    await member.add_roles(loadrole(loadguild(767517834812194816), 767518743949213696))
-  elif str(member.guild) == "Veridean Official Group Server":
+      await member.add_roles(loadrole(Prototype, 771052131359784982))
+    await member.add_roles(loadrole(Prototype, 771497855302238258))
+  elif str(member.guild) == str(Veridean):
     if member.id == 433433822248304641:
-      await member.add_roles(loadrole(loadguild(745422782216667256), 771412680287453184))
-    await member.add_roles(loadrole(loadguild(745422782216667256), 745616794181435442))
+      await member.add_roles(loadrole(Veridean, 771412680287453184))
+    await member.add_roles(loadrole(Veridean, 745616794181435442))
 
 
 # Load Channel function
 def loadchan(id): # Loads a channel
   global client
-  print('Channel #' + client.get_channel(id).name + ' loaded.')
+  print('Channel #' + str(client.get_channel(id)) + ' loaded.')
   return client.get_channel(id)
 
 def loadrole(guild, id): # Loads a role from a specific guild
-  print('Role <' + guild.get_role(id).name + '> loaded.')
+  print('Role <' + str(guild.get_role(id)) + '> loaded.')
   return guild.get_role(id)
 
 def loadguild(id): # Loads a guild (server)
   global client
-  print('Guild ' + client.get_guild(id).name + ' loaded.')
+  print('Guild ' + str(client.get_guild(id)) + ' loaded.')
   return client.get_guild(id)
 
 def loadmember(guild, id): # Loads a member from an id
-  print('User @' + guild.get_member(id).name + ' loaded.')
+  print('User @' + str(guild.get_member(id)) + ' loaded.')
   return guild.get_member(id)
 
 async def setstatus(activity):
@@ -267,11 +269,6 @@ def keep_alive():
 
 
 
-async def verified(msg):
-  if str(msg.guild) == "Veridean Official Group Server":
-    return loadrole(loadguild(745422782216667256), 771412680287453184) in msg.author.roles
-  elif str(msg.guild) == "The Nexus":
-    return loadrole(loadguild(767517834812194816), 770104165761417277) in msg.author.roles
 
 
 
@@ -316,15 +313,17 @@ async def ISLog(code, guild, details="None."):
   global USER
   global PASS
   global server
+  global Veridean
+  global Protoype
 
   if IS_severity[code] != "NULL":
     await InfoSecRepo.send('@everyone\nURGENCY: ' + IS_severity[code] + '\nISSUE         : ' + IS_codes[code] + '\nGUILD       : ' + str(guild) + '\nDETAILS   : ' + details)
 
     if guild != "BreenBot Logging Server": # If guild is NOT the logging server, then:
-      if str(guild) == "Veridean Official Group Server":
+      if str(guild) == str(Veridean):
         await VeriAnnouncements.send('<@&771412680287453184>\nURGENCY: ' + IS_severity[code] + '\nISSUE         : ' + IS_codes[code] + '\nGUILD       : ' + str(guild) + '\nDETAILS   : ' + details)
-      elif str(guild) == "The Nexus":
-        await InfoSecLogs.send('<@&768632488842100737>\nURGENCY: ' + IS_severity[code] + '\nISSUE         : ' + IS_codes[code] + '\nGUILD       : ' + str(guild) + '\nDETAILS   : ' + details)
+      elif str(guild) == str(Prototype):
+        await InfoSecLogs.send('<@&771497855302238258>\nURGENCY: ' + IS_severity[code] + '\nISSUE         : ' + IS_codes[code] + '\nGUILD       : ' + str(guild) + '\nDETAILS   : ' + details)
 
       try:
         server.connect("smtp.office365.com", 587)
@@ -348,6 +347,18 @@ async def ISLog(code, guild, details="None."):
 
   else:
     await InfoSecRepo.send('\nURGENCY: ' + IS_severity[code] + '\nISSUE         : ' + IS_codes[code] + '\nGUILD       : ' + str(guild) + '\nDETAILS   : ' + details)
+
+Veridean = loadguild(745422782216667256)
+Prototype = loadguild(771489431344382013)
+
+
+async def verified(msg):
+  global Prototype
+  global Veridean
+  if str(msg.guild) == str(Veridean):
+    return loadrole(loadguild(745422782216667256), 771412680287453184) in msg.author.roles
+  elif str(msg.guild) == str(Prototype):
+    return loadrole(loadguild(767517834812194816), 771497855302238258) in msg.author.roles
 
 
 # keep_alive test

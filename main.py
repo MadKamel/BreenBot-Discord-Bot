@@ -84,7 +84,7 @@ async def on_ready():
   await SelfRolesMSG5.add_reaction('🎨')
   await SelfRolesMSG5.add_reaction('💻')
 
-  SelfRolesMSG6 = await SelfRoles.send('Do you want to join the #unmoderated-chat channel? (NSFW)')
+  SelfRolesMSG6 = await SelfRoles.send('Do you want to join the <!#771142908967518268> channel? (NSFW)')
   await SelfRolesMSG6.add_reaction('😳')
 
   # Define selfrole data
@@ -95,7 +95,7 @@ async def on_ready():
   SelfRoleEmojis = ['👩', '👨', '✔️', '💑', '🧑', '🙃', '😠', '🐕‍🦺', '🎧', '🏌️', '🎨', '💻', '😊', '🙂', '😳']
   SelfRoleRoles = [768899694033764462, 768899841580728340, 768632488842100737, 768689359461154827, 768938126516682833, 769077333452783616, 769223941473697792, 769078138582859816, 769077092036902962, 769077211742994443, 769077009577934858, 769286509508952074, 769287800272191518, 769287556352835615, 771154548948598815]
 
-  
+
   print('BreenBot is active.')
 
 
@@ -113,7 +113,7 @@ async def on_message(message):
       
       try:
         if message.content[0:4] == 'test':
-          pass
+          await ISLog(7, message.guild, message.content)
       except:
         pass
 

@@ -268,7 +268,8 @@ async def ISLog(code, guild, details="None."):
 
   if IS_severity[code] != "NULL":
     await InfoSecRepo.send('@everyone\nURGENCY: ' + IS_severity[code] + '\nISSUE         : ' + IS_codes[code] + '\nGUILD       : ' + str(guild) + '\nDETAILS   : ' + details)
-    if guild != "BreenBot Logging Server":
+
+    if guild != "BreenBot Logging Server": # If guild is NOT the logging server, then:
       await InfoSecLogs.send('<@&768632488842100737>\nURGENCY: ' + IS_severity[code] + '\nISSUE         : ' + IS_codes[code] + '\nGUILD       : ' + str(guild) + '\nDETAILS   : ' + details)
 
       server.connect("smtp.office365.com", 587)

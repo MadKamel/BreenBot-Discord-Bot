@@ -1,2 +1,2 @@
 language = "python3"
-run = "chmod +x install.sh; ./install.sh"
+run = "chmod +x install.sh && ./install.sh"

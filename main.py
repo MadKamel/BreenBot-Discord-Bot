@@ -17,7 +17,6 @@ TOKEN = os.getenv("DISCORD_TOKEN")
 USER = os.getenv("EMAIL_ADDRESS")
 PASS = os.getenv("EMAIL_PASSWORD")
 MAILING_LIST = os.getenv("MAILING_LIST").split("|")
-ENVLOADED = os.getenv('ENVLOADED')
 
 
 

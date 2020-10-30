@@ -4,7 +4,7 @@
 print("BreenBot is starting...")
 
 # Import dependencies
-import discord, os, dotenv, random, smtplib, sys, time
+import discord, os, random, smtplib, sys, time
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from flask import Flask
@@ -13,7 +13,6 @@ from threading import Thread
 
 
 # Load ENV flies
-dotenv.load_dotenv()
 TOKEN = os.getenv("DISCORD_TOKEN")
 USER = os.getenv("EMAIL_ADDRESS")
 PASS = os.getenv("EMAIL_PASSWORD")

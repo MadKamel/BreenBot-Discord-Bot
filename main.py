@@ -36,7 +36,7 @@ client = discord.Client(intents=intents)
 
 
 
-CommandChannels = [771044685027344474, 771413388311265280]
+CommandChannels = [773604310734602251]
 
 # on_ready() event
 @client.event
@@ -51,12 +51,9 @@ async def on_ready():
   global VeriCommand
 
   # Initialize channels
-  InfoSecLogs = loadchan(771499214290550837)
+  InfoSecLogs = loadchan(771811152765911100)
   InfoSecRepo = loadchan(770712499850182710)
   SelfRoles = loadchan(771492134058590218)
-  InfoSecCmd = loadchan(771499744257900556)
-  VeriAnnouncements = loadchan(771414943613976587)
-  VeriCommand = loadchan(771413388311265280)
 
   # Uncomment to set BreenBot to clear all logs
   #while True:

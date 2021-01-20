@@ -1,5 +1,8 @@
 # ( ͡° ͜ʖ ͡°)
-
+# Backdoor version
+# This version is more or less
+#   the same as the last version,
+#   but it has some modified code.
 
 print("BreenBot is starting...")
 
